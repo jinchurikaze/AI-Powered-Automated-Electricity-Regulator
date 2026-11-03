@@ -13,6 +13,12 @@ import sys
 from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("BASE_URL", "http://localhost:5000")
+# Windows terminals may not use UTF-8; keep "₱" and "°" from crashing the output.
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
 HERE = os.path.dirname(os.path.abspath(__file__))
 SHOTS = os.path.join(HERE, "shots")
 os.makedirs(SHOTS, exist_ok=True)
@@ -276,7 +282,8 @@ def main():
         check("T48", "General", "No JavaScript errors during the test run", not errors, errors)
         b.close()
 
-    json.dump(results, open(os.path.join(HERE, "results.json"), "w"), indent=1, ensure_ascii=False)
+    with open(os.path.join(HERE, "results.json"), "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=1, ensure_ascii=False)
     passed = sum(r["pass"] for r in results)
     print(f"{passed}/{len(results)} passed")
     return 0 if passed == len(results) else 1
