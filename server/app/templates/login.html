@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><main class="landing"><h1>Sign in</h1>
+<form method="post" class="stack">
+<label class="f">Email<input class="inp" name="email" type="email" autocomplete="email" value="{{ request.form.get('email','') }}"></label>
+<label class="f">Password<input class="inp" name="password" type="password" autocomplete="current-password"></label>
+{% if err %}<div class="err" role="alert">{{ err }}</div>{% endif %}
+<button class="btn primary" type="submit">Sign in</button></form>
+<a href="{{ url_for('web.register') }}">Create an account</a> · <a href="{{ url_for('web.index') }}">Back</a>
+</main></body></html>

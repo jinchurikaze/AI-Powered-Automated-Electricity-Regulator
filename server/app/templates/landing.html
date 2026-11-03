@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Electricity Regulator</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><main class="landing">
+<h1>⚡ Electricity Regulator</h1>
+<p class="sub">Keep your electric bill within budget. Track what you use, get a daily plan, and check your real bill. No smart plugs needed.</p>
+<div class="pcard"><h3>Try the sample household</h3><p class="sub">A household in Legazpi City with 40 days of usage, a ₱4,000 monthly limit, and demo controls to move time forward.</p>
+<form method="post" action="{{ url_for('web.demo') }}"><button class="btn primary" type="submit">Open sample household</button></form></div>
+<div class="pcard"><h3>Your own account</h3><div class="btnrow"><a class="btn" href="{{ url_for('web.register') }}">Create account</a><a class="btn" href="{{ url_for('web.login') }}">Sign in</a></div></div>
+</main></body></html>

@@ -1,0 +1,16 @@
+{% from "_macros.html" import errs %}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Create your account</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><main class="landing"><h1>Create your account</h1>
+<p class="sub">Set up once. You can change these later in Settings.</p>
+<form method="post" class="stack" novalidate>
+<label class="f">Email<input class="inp" name="email" type="email" autocomplete="email" value="{{ form.get('email','') }}" {% if errors.email %}aria-invalid="true"{% endif %}></label>{{ errs(errors,'email') }}
+<label class="f">Password<input class="inp" name="password" type="password" autocomplete="new-password" {% if errors.password %}aria-invalid="true"{% endif %}><span class="help">At least 8 characters</span></label>{{ errs(errors,'password') }}
+<label class="f">Electricity rate per kWh (₱, from your bill)<input class="inp num" name="rate" inputmode="decimal" placeholder="e.g. 12.50" value="{{ form.get('rate','') }}" {% if errors.rate %}aria-invalid="true"{% endif %}></label>{{ errs(errors,'rate') }}
+<div class="grid2">
+<label class="f">Billing cycle starts on day<select class="inp" name="cycle_day">{% for i in range(1,32) %}<option {% if form.get('cycle_day','1')|string == i|string %}selected{% endif %}>{{ i }}</option>{% endfor %}</select></label>
+<label class="f">Monthly limit (₱, optional)<input class="inp num" name="limit" inputmode="decimal" value="{{ form.get('limit','') }}"></label></div>{{ errs(errors,'limit') }}
+<label class="switch"><span>I agree to the Privacy Notice. My data is used only for this app (RA 10173).</span><input type="checkbox" name="consent" {% if form.get('consent') %}checked{% endif %} style="width:24px;height:24px"></label>{{ errs(errors,'consent') }}
+<button class="btn primary" type="submit">Create account</button></form>
+<a href="{{ url_for('web.index') }}">Back</a>
+</main></body></html>

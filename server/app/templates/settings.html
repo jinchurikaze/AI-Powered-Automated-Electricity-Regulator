@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% from "_macros.html" import errs %}
+{% set title = "Settings" %}{% set back = url_for('web.home') %}
+{% block content %}
+<a class="item" href="{{ url_for('web.limits') }}"><span class="grow"><span class="name">Limits and alerts</span><br><span class="sub">{% set m = h.limits.monthly %}{{ ('Monthly ' + (m.value|peso if m.unit == 'PESO' else m.value|kwh(1))) if m.active else 'No monthly limit' }}</span></span>›</a>
+<form method="post" class="card stack" novalidate>
+  <h2>Rate and billing cycle</h2>
+  <label class="f">Electricity rate per kWh (₱)<input class="inp num" name="rate" inputmode="decimal" value="{{ '%.2f'|format(h.rate) }}" {% if errors.rate %}aria-invalid="true"{% endif %}></label>{{ errs(errors,'rate') }}
+  <label class="f">Billing cycle starts on day<select class="inp" name="cycle_day">{% for i in range(1,32) %}<option {% if i == h.user.cycle_day %}selected{% endif %}>{{ i }}</option>{% endfor %}</select></label>
+  <button class="btn primary block" type="submit">Save</button>
+</form>
+<a class="item" href="{{ url_for('web.help_page') }}"><span class="grow name">Help</span>›</a>
+<a class="item" href="{{ url_for('web.data') }}"><span class="grow"><span class="name">Your data and privacy</span><br><span class="sub">Export or delete your data</span></span>›</a>
+{% endblock %}

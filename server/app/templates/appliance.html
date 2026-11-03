@@ -1,0 +1,33 @@
+{% extends "base.html" %}{% from "_macros.html" import app_icon %}
+{% set a = d.appliance %}{% set title = a.type %}{% set back = url_for('web.appliances') %}{% set autorefresh = true %}
+{% block content %}
+<div class="row"><span class="sub">{{ app_icon(a.type) }} {{ '{:,}'.format(a.watt) }} W{{ ' · ' + a.location if a.location }}{{ ' · essential' if a.essential }}</span>
+<a class="btn small ghost" href="{{ url_for('web.appliance_edit', aid=a.id) }}">Edit</a></div>
+<div class="card" style="text-align:center">
+  {% if a.running %}
+  <div class="sub">Timer running since {{ a.timerStart|clock }}</div>
+  <div class="big num">{{ a.elapsedH|hours }}</div>
+  <div class="sub num">about {{ (a.watt * a.elapsedH / 1000 * h.rate)|peso }} so far</div>
+  {% else %}
+  <div class="sub">Usage timer</div><div class="mid">Off</div>
+  {% endif %}
+  <form method="post" action="{{ url_for('web.appliance_action', aid=a.id, action='stop' if a.running else 'start') }}">
+    <button class="power {{ 'stop' if a.running else 'on' }}" type="submit">{{ 'Stop' if a.running else 'Start' }}</button></form>
+  <div class="sub">{{ 'Tap Stop when you turn it off.' if a.running else 'Tap Start when you turn it on.' }}</div>
+  {% if d.plan %}<div class="chip {{ 'bad' if d.plan.leftH <= 0 else 'info' }}" style="margin-top:10px">{{ ("Today's plan: " + (d.plan.leftH|hours) + ' left') if d.plan.leftH > 0 else "Today's plan is used up" }}</div>{% endif %}
+</div>
+<form class="card stack" method="post" action="{{ url_for('web.appliance_action', aid=a.id, action='log') }}">
+  <h2>Forgot the timer?</h2>
+  <div class="row"><input class="inp num" name="hours" inputmode="decimal" placeholder="{{ 'Hours today, e.g. %g'|format(a.hours) if a.hours else 'Hours today, e.g. 5' }}" aria-label="Hours used today"><button class="btn small primary" type="submit">Log</button></div>
+</form>
+<div class="grid2">
+  <div class="card"><div class="sub">Today</div><div class="mid num">{{ (a.todayKwh * h.rate)|peso }}</div><div class="sub num">{{ a.todayKwh|kwh }}</div></div>
+  <div class="card"><div class="sub">This month</div><div class="mid num">{{ d.cycleCost|peso }}</div><div class="sub num">{{ d.cycleKwh|kwh(1) }}</div></div>
+</div>
+<div class="card"><h2>Recent use</h2>
+  <div class="divide">
+  {% for r in d.recent %}<div class="row sub"><span>{{ r.ts|short_date }} · {{ r.hours|hours }} · {{ r.kwh|kwh }}</span><span class="chip {{ 'ok' if r.src == 'TIMER' else 'info' }}">{{ 'Timer' if r.src == 'TIMER' else 'Logged' }}</span></div>
+  {% else %}<div class="sub">Nothing recorded yet.</div>{% endfor %}
+  </div>
+</div>
+{% endblock %}

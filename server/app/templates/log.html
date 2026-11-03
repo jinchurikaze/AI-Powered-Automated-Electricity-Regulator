@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% from "_macros.html" import app_icon %}
+{% set title = "Log today's hours" %}{% set back = url_for('web.home') %}
+{% block content %}
+<p class="sub">How many hours was each one on today? Leave a box empty to skip it.</p>
+<form method="post" class="stack">
+{% for a in d.appliances if not a.running %}
+  <label class="row card"><span class="grow"><span class="name">{{ app_icon(a.type) }} {{ a.type }}</span><br><span class="sub">{{ '{:,}'.format(a.watt) }} W{{ ' · already logged today' if a.loggedToday }}</span></span>
+  <input class="inp num" style="width:110px" name="h_{{ a.id }}" inputmode="decimal" placeholder="{{ '%g h'|format(a.hours) if a.hours else 'hours' }}" value="{{ request.form.get('h_%d'|format(a.id), '') if errors.get(a.id|string) else '' }}" {% if errors.get(a.id|string) %}aria-invalid="true"{% endif %}></label>
+  {% if errors.get(a.id|string) %}<div class="err">{{ a.type }}: {{ errors[a.id|string] }}</div>{% endif %}
+{% endfor %}
+  <button class="btn primary block" type="submit">Save hours</button>
+</form>
+{% endblock %}

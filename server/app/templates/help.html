@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% set title = "Help" %}{% set back = url_for('web.settings') %}
+{% block content %}
+{% for t, b in [('Timers','Tap Start when you turn an appliance on and Stop when you turn it off. Energy = watts × hours ÷ 1,000.'),
+ ('Logging hours','If you forget the timer, log the hours later on the appliance or on "Log today\'s hours".'),
+ ('Usage plan','When you are heading over your limit, the plan gives each non-essential appliance a daily allowance and reminds you when a timer reaches it.'),
+ ('Bill and meter check','Scan your bill or enter meter readings to see how much use the app did not record.'),
+ ('Costs','Cost = kWh × your rate. Bill Check can set your rate to include all bill charges.')] %}
+<div class="card"><b>{{ t }}</b><div class="sub">{{ b }}</div></div>{% endfor %}
+{% endblock %}

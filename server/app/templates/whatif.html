@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% from "_macros.html" import app_icon %}
+{% set title = "What if…" %}{% set back = url_for('web.save') %}
+{% block content %}
+{% set r = d.result %}
+<div class="card" style="text-align:center;background:{{ 'var(--good-soft)' if r.monthlyPeso <= 0 else 'var(--bad-soft)' }}">
+  <div class="sub">{{ 'You would save' if r.monthlyPeso < 0 else ('You would pay' if r.monthlyPeso > 0 else 'Move a slider to see the change') }}{{ ' each month' if r.monthlyPeso }}</div>
+  <div class="big num" id="wi-peso">{{ r.monthlyPeso|abs|peso if r.monthlyPeso else (0|peso) }}</div>
+  {% if r.payback %}<div class="lead">The inverter pays for itself in about {{ r.payback|round|int }} months.</div>{% endif %}
+</div>
+<form method="post" class="stack" id="wi">
+{% for a in d.appliances %}
+  <div class="card">
+    <div class="row"><b>{{ app_icon(a.type) }} {{ a.type }}</b><span class="sub">now {{ a.usualH|hours }} a day</span></div>
+    <label class="f">Hours a day: <output id="o{{ a.id }}">{{ '%+g h'|format(a.dh) if a.dh else 'no change' }}</output>
+      <input type="range" name="dh_{{ a.id }}" min="-4" max="2" step="0.5" value="{{ a.dh }}" oninput="document.getElementById('o{{ a.id }}').value=(this.value==0?'no change':(this.value>0?'+':'')+this.value+' h')" onchange="this.form.submit()"></label>
+    {% if a.inverterOption %}<label class="switch"><span>Switch to an inverter model</span><input type="checkbox" name="inv_{{ a.id }}" {% if a.inv %}checked{% endif %} onchange="this.form.submit()" style="width:24px;height:24px"></label>{% endif %}
+  </div>
+{% endfor %}
+  <details class="card more"><summary>Inverter details</summary>
+    <div class="stack" style="margin-top:8px">
+    <label class="f">Inverter saving (%)<input class="inp num" name="saving" value="{{ '%g'|format(d.savingPct) }}" inputmode="decimal"></label>
+    <label class="f">Extra cost of the inverter model (₱)<input class="inp num" name="extra" value="{{ '%g'|format(d.extraCost) }}" inputmode="decimal"></label>
+    <button class="btn primary" type="submit">Calculate</button></div>
+  </details>
+</form>
+<p class="note">Based on your average use in the last 14 days ({{ r.monthlyKwh|kwh(1) }} change a month) at {{ h.rate|peso }} per kWh.</p>
+{% endblock %}

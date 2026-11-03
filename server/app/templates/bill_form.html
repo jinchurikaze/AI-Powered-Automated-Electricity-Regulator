@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% from "_macros.html" import errs %}
+{% set title = "Scan or enter a bill" %}{% set back = url_for('web.check') %}
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="card stack">
+  <h2>Scan</h2>
+  <div class="sub">Take a photo of your bill and we'll fill in the numbers for you.</div>
+  <input type="file" name="photo" accept="image/*" capture="environment" aria-label="Bill photo">
+  <div class="btnrow"><button class="btn small" name="act" value="photo" type="submit">Read photo</button><button class="btn small" name="act" value="sample" type="submit">Use sample bill photo</button></div>
+  <details class="more"><summary>Paste the bill's text instead</summary><div class="stack" style="margin-top:8px">
+  <textarea class="inp" name="text" aria-label="Bill text">{{ text }}</textarea>
+  <button class="btn small" name="act" value="read" type="submit">Read text</button></div></details>
+</form>
+{% if scan_msg %}<div class="flash ok">{{ scan_msg }}</div>{% endif %}
+<form method="post" class="card stack" novalidate>
+  <h2>Check the numbers</h2>
+  <input type="hidden" name="src" value="{{ f.get('src', 'MANUAL') }}">
+  <div class="grid2">
+    <label class="f">Period start<input class="inp" type="date" name="start" value="{{ f.get('start','') }}"></label>
+    <label class="f">Period end<input class="inp" type="date" name="end" value="{{ f.get('end','') }}"></label>
+  </div>{{ errs(errors, 'period') }}
+  <div class="grid2">
+    <label class="f">kWh used<input class="inp num" name="kwh" inputmode="decimal" value="{{ f.get('kwh','') }}" {% if errors.kwh %}aria-invalid="true"{% endif %}></label>
+    <label class="f">Total amount (₱)<input class="inp num" name="amount" inputmode="decimal" value="{{ f.get('amount','') }}" {% if errors.amount %}aria-invalid="true"{% endif %}></label>
+  </div>{{ errs(errors, 'kwh') }}{{ errs(errors, 'amount') }}
+  <button class="btn primary block" type="submit" name="act" value="save">Save and compare</button>
+</form>
+<p class="note">Photos are not stored. On the phone they never leave the device.</p>
+{% endblock %}

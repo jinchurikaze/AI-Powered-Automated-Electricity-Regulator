@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% from "_macros.html" import bars, app_icon %}
+{% set title = "Usage" %}
+{% block content %}
+<div class="seg" role="group" aria-label="View">
+  <a href="{{ url_for('web.usage', view='daily') }}" aria-pressed="{{ 'true' if d.view == 'daily' else 'false' }}">Daily</a>
+  <a href="{{ url_for('web.usage', view='monthly') }}" aria-pressed="{{ 'true' if d.view == 'monthly' else 'false' }}">Monthly</a>
+</div>
+<div class="card"><h2>{{ 'Last 7 days' if d.view == 'daily' else 'Past months' }}</h2><div class="sub">Electricity used, in kWh</div>
+  {% set items = [] %}{% for b in d.bars %}{% set _ = items.append((b.label, b.kwh, b.current, none)) %}{% endfor %}
+  {{ bars(items) }}
+</div>
+<div class="card soft">
+  <div class="sub">This month so far</div>
+  <div class="mid num">{{ d.cycleCost|peso }}</div>
+  <div class="sub">{% if d.change is not none %}{{ d.change|abs|round|int }}% {{ 'more' if d.change >= 0 else 'less' }} than last month at this point.{% endif %}
+  See your expected bill on the Save tab.</div>
+  <details class="more"><summary>How is this calculated?</summary>
+    <p>A simple average: if every day were like the days so far, the month would cost <b class="num">{{ d.projCost|peso }}</b>.</p>
+    <p class="num">({{ d.cycleKwh|kwh(1) }} ÷ {{ d.dayIndex }} days) × {{ d.cycleDays }} days × {{ h.rate|peso }}</p>
+    <p>The Save tab gives a better estimate because it also looks at the weather and recent days. The comparison uses the same number of days of last month's billing cycle.</p></details>
+</div>
+<div class="card"><h2>What uses the most</h2>
+  {% for s in d.shares %}
+  <div style="margin-top:12px"><div class="row"><span>{{ app_icon(s.type) }} {{ s.type }}{% if s.aboveUsual %} <span class="chip warn">Above usual</span>{% endif %}</span><b class="num">{{ s.cost|peso }}</b></div>
+  <div class="share" style="width:{{ s.share }}%" title="{{ s.share|round|int }}%"></div></div>
+  {% else %}<div class="sub">No usage yet this month.</div>{% endfor %}
+</div>
+<p class="note">Costs are estimates. Compare them with your real bill on the Check tab.</p>
+{% endblock %}

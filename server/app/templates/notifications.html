@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% set title = "Notifications" %}{% set back = url_for('web.home') %}
+{% block content %}
+{% for n in items %}<div class="card"><div class="row"><b>{{ n.title }}</b><span class="sub">{{ n.ts|short_date }}, {{ n.ts|clock }}</span></div><div class="sub">{{ n.body }}</div></div>
+{% else %}<div class="empty">No notifications yet.</div>{% endfor %}
+{% endblock %}

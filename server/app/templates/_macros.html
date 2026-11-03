@@ -1,0 +1,41 @@
+{% set ICONS = {
+ 'home':'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ 'plug':'<path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0zM12 17v5"/>',
+ 'chart':'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ 'bulb':'<path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V16h8v-1.3A7 7 0 0 0 12 2z"/>',
+ 'check':'<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/>',
+ 'gear':'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+ 'bell':'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/>',
+ 'back':'<path d="M15 18l-6-6 6-6"/>',
+ 'clock':'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'} %}
+{% macro icon(name) -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ ICONS[name]|safe }}</svg>{%- endmacro %}
+
+{% macro bars(items, max_v=None, dashed=False) -%}
+{# items: list of (label, value, highlight, sublabel) #}
+{%- set n = items|length -%}
+{%- set mx = (max_v or ((items|map(attribute=1)|max) if n else 1)) * 1.15 or 1 -%}
+{%- set w = 320 -%}{%- set bw = (w - 10) / n -%}
+<svg class="chart" viewBox="0 0 {{ w }} {{ 150 if items[0][3] is not none else 140 }}" role="img" aria-label="Bar chart">
+{%- for lab, v, hl, sub in items %}
+  {%- set bh = 100 * v / mx -%}{%- set x = 5 + loop.index0 * bw -%}
+  <rect class="bar{{ ' fc' if dashed else (' today' if hl else '') }}" x="{{ '%.1f'|format(x + bw*0.15) }}" y="{{ '%.1f'|format(115 - bh) }}" width="{{ '%.1f'|format(bw*0.7) }}" height="{{ '%.1f'|format(bh) }}" rx="3"></rect>
+  <text class="v" x="{{ '%.1f'|format(x + bw/2) }}" y="{{ '%.1f'|format(110 - bh) }}" text-anchor="middle">{{ '%.1f'|format(v) }}</text>
+  <text x="{{ '%.1f'|format(x + bw/2) }}" y="129" text-anchor="middle">{{ lab }}</text>
+  {%- if sub is not none %}<text x="{{ '%.1f'|format(x + bw/2) }}" y="142" text-anchor="middle">{{ sub }}</text>{% endif %}
+{%- endfor %}
+</svg>
+{%- endmacro %}
+
+{% macro errs(e, key) -%}{% if e and e.get(key) %}<div class="err" role="alert">{{ e[key] }}</div>{% endif %}{%- endmacro %}
+
+{% set EMOJI = {'air':'❄️','refrigerator':'🧊','fridge':'🧊','freezer':'🧊','fan':'🌀','television':'📺','tv':'📺','washing':'🧺','rice':'🍚','computer':'💻','laptop':'💻','light':'💡','water':'🚰','iron':'👕','oven':'🍞','microwave':'🍞'} %}
+{% macro app_icon(type) -%}{% set ns = namespace(e='🔌') %}{% for k, v in EMOJI.items() %}{% if k in type|lower and ns.e == '🔌' %}{% set ns.e = v %}{% endif %}{% endfor %}<span aria-hidden="true">{{ ns.e }}</span>{%- endmacro %}
+
+{% macro ring(pct, cls='') -%}
+{%- set r = 52 -%}{%- set c = 2 * 3.14159 * r -%}{%- set p = [pct, 100]|min / 100 -%}
+<div class="ring {{ cls }}" role="img" aria-label="{{ pct|round|int }} percent of the monthly budget used">
+  <svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="{{ r }}" fill="none" stroke-width="14"/>
+  <circle class="fill" cx="60" cy="60" r="{{ r }}" fill="none" stroke-width="14" stroke-dasharray="{{ '%.1f'|format(c*p) }} {{ '%.1f'|format(c) }}"/></svg>
+  <div class="pct"><div>{{ pct|round|int }}%<small>used</small></div></div>
+</div>
+{%- endmacro %}

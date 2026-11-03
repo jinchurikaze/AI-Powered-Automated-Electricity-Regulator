@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% from "_macros.html" import app_icon %}
+{% set title = "Appliances" %}{% set autorefresh = true %}
+{% block content %}
+<p class="sub">Tap <b>Start</b> when you turn something on and <b>Stop</b> when you turn it off.</p>
+<div class="list">
+{% for a in d.appliances %}
+  <div class="item {{ 'on' if a.running }}">
+    <span class="ico">{{ app_icon(a.type) }}</span>
+    <a class="grow" href="{{ url_for('web.appliance', aid=a.id) }}">
+      <div class="name">{{ a.type }}</div>
+      <div class="sub">{% if a.running %}On for {{ a.elapsedH|hours }}{% else %}{{ '{:,}'.format(a.watt) }} W · today {{ (a.todayKwh * h.rate)|peso }}{% endif %}{% if a.essential %} · essential{% endif %}</div>
+    </a>
+    {% if a.running %}
+    <form method="post" action="{{ url_for('web.appliance_action', aid=a.id, action='stop') }}"><button class="btn small" type="submit" aria-label="Stop {{ a.type }} timer">Stop</button></form>
+    {% else %}
+    <form method="post" action="{{ url_for('web.appliance_action', aid=a.id, action='start') }}"><button class="btn small primary" type="submit" aria-label="Start {{ a.type }} timer">Start</button></form>
+    {% endif %}
+  </div>
+{% else %}<div class="empty">No appliances yet. Tap <b>+ Add</b> to add your first one.</div>{% endfor %}
+</div>
+<div style="height:60px"></div>
+{% endblock %}
+{% block fab %}<a class="fab" href="{{ url_for('web.appliance_new') }}">+ Add</a>{% endblock %}

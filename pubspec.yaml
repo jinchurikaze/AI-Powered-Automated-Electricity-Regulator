@@ -1,0 +1,24 @@
+name: electricity_regulator
+description: AI-Powered Automated Electricity Regulator – MVP prototype (Group 9, BSCS 3A, Bicol University).
+publish_to: 'none'
+version: 1.1.0+4
+
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
+  http: ^1.2.1                          # REST calls to the Python (Flask) server
+  image_picker: ^1.1.2                  # bill photo from camera or gallery
+  google_mlkit_text_recognition: ^0.13.0 # on-device text recognition for Bill Check
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

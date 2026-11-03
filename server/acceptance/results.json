@@ -1,0 +1,338 @@
+[
+ {
+  "id": "T01",
+  "story": "US-01",
+  "criterion": "Missing email, short password, rate 0 and no consent are rejected with messages",
+  "pass": true,
+  "detail": "Create your account\n\nSet up once. You can change these later in Settings.\n\nEmail\nEnter a valid email address.\nPassword\nAt least 8 characters\nUse at least 8 characters.\nElectricity rate per kWh (₱, from your bill)\nEnter a rate greater than 0.\nBilling cycle starts on day\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n"
+ },
+ {
+  "id": "T02",
+  "story": "US-01",
+  "criterion": "Valid email, 8+ character password, rate and consent create the account and open Home",
+  "pass": true,
+  "detail": "http://localhost:5000/home"
+ },
+ {
+  "id": "T03",
+  "story": "US-11",
+  "criterion": "A new user without 7 days of data sees how many days are needed",
+  "pass": true,
+  "detail": "Forecast coming soon\nWe need 7 more days of records before we can predict your bill.\nDaily plan\nOff\n\nYou're on track. No cuts needed today.\n\nTurn on plan and reminders\nHow is this calculated?\n\nAbout 1"
+ },
+ {
+  "id": "T04",
+  "story": "US-02",
+  "criterion": "Rate 0 is rejected",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T05",
+  "story": "US-02",
+  "criterion": "Rate 12.50 is saved",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T06",
+  "story": "US-01",
+  "criterion": "A wrong password shows \"Incorrect email or password.\"",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T07",
+  "story": "US-05",
+  "criterion": "Home shows each running timer with its elapsed time",
+  "pass": true,
+  "detail": "37%\nused\nUsed so far · day 11 of 31\n₱1,491.86\nof your ₱4,000.00 budget\nAbove limit at this pace.\nYou may reach ₱4,068.37 by the end of the month. See how to save\nOn right now\n1 running\n🌀 Electric fan\n"
+ },
+ {
+  "id": "T08",
+  "story": "US-07",
+  "criterion": "Home shows today's and the cycle's kWh with peso estimates",
+  "pass": true,
+  "detail": "37%\nused\nUsed so far · day 11 of 31\n₱1,491.86\nof your ₱4,000.00 budget\nAbove limit at this pace.\nYou may reach ₱4,068.37 by the end of the month. See how to save\nOn right now\n1 running\n🌀 Electric fan\n1 h 10 min\nStop\nToday\n₱82.12\n6.57 kWh\nThis month\n₱1,491.86\n119.3 kWh\nLog today's hours (2 to go)\n💡 T"
+ },
+ {
+  "id": "T09",
+  "story": "US-10",
+  "criterion": "Monthly limit bar shows 37% and the forecast is above the ₱4,000.00 limit",
+  "pass": true,
+  "detail": "37%\nused\nUsed so far · day 11 of 31\n₱1,491.86\nof your ₱4,000.00 budget\nAbove limit at this pace.\nYou may reach ₱4,068.37 by the end of the month. See how to save\nOn right now\n1 running\n🌀 Electric fan\n1 h 10 min\nStop\nToday\n₱82.12\n6.57 kWh\nThis month\n₱1,491.86\n119.3 kWh\nLog today's hours (2 to go)\n💡 T"
+ },
+ {
+  "id": "T10",
+  "story": "US-03",
+  "criterion": "Wattage 0 is rejected with the 1–10,000 W message",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T11",
+  "story": "US-03",
+  "criterion": "Wattage 20,000 is rejected",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T12",
+  "story": "US-03",
+  "criterion": "Valid appliance (Other, 1,000 W) is saved",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T13",
+  "story": "US-04",
+  "criterion": "A deleted appliance leaves the list but its usage stays in the cycle total",
+  "pass": true,
+  "detail": "119.3 → 122.3"
+ },
+ {
+  "id": "T14",
+  "story": "US-05",
+  "criterion": "Start shows the timer as running",
+  "pass": true,
+  "detail": "📺 120 W · Living room\nEdit\nTimer running since 9:40 AM\n0 min\nabout ₱0.00 so far\nStop\nTap Stop when you turn it off.\nForgot the timer?\nLog\nToday\n₱0.00\n0.00 kWh\nThis month\n₱45.41\n3.6 kWh\nRecent use\nOct "
+ },
+ {
+  "id": "T15",
+  "story": "US-05",
+  "criterion": "Stop after 2 hours saves 120 W × 2 h = 0.24 kWh labeled Timer",
+  "pass": true,
+  "detail": "Recorded 2.00 hours.\n📺 120 W · Living room\nEdit\nUsage timer\nOff\nStart\nTap Start when you turn it on.\nForgot the timer?\nLog\nToday\n₱3.00\n0.24 kWh\nThis month\n₱48.41\n3.9 kWh\nRecent use\nOct 31 · 2 h · 0.24 kWh\nTimer\nOct 30 · 2 h 45 min · 0.33 kWh\nLogged\nOct 29 · 3 h 9 min · 0.38 kWh\nLogged\nOct 28 · 2 h 5"
+ },
+ {
+  "id": "T16",
+  "story": "US-06",
+  "criterion": "Hours outside 0.1–24 are rejected",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T17",
+  "story": "US-06",
+  "criterion": "Logging 1 h for a 120 W television saves 0.12 kWh labeled Logged",
+  "pass": true,
+  "detail": "Hours logged.\n📺 120 W · Living room\nEdit\nUsage timer\nOff\nStart\nTap Start when you turn it on.\nForgot the timer?\nLog\nToday\n₱4.50\n0.36 kWh\nThis month\n₱49.91\n4.0 kWh\nRecent use\nOct 31 · 1 h · 0.12 kWh\nLogged\nOct 31 · 2 h · 0.24 kWh\nTimer\nOct 30 · 2 h 45 min · 0.33 kWh\nLogged\nOct 29 · 3 h 9 min · 0.38 k"
+ },
+ {
+  "id": "T18",
+  "story": "US-06",
+  "criterion": "Log-today screen skips appliances with a running timer and shows usual hours as hints",
+  "pass": true,
+  "detail": "How many hours was each one on today? Leave a box empty to skip it.\n\n❄️ Air conditioner\n1,000 W · already logged today\n🧊 Refrigerator\n150 W\n📺 Television\n120 W · already logged today\n🧺 Washing machine\n500 W\nSave hours"
+ },
+ {
+  "id": "T19",
+  "story": "US-06",
+  "criterion": "An invalid entry on the log sheet shows its error",
+  "pass": true,
+  "detail": "How many hours was each one on today? Leave a box empty to skip it.\n\n❄️ Air conditioner\n1,000 W · already logged today\nAir conditioner: Enter hours from 0.1 to 24.\n🧊 Refrigerator\n150 W\n📺 Television\n120 W · already logged today\n🧺 Washing machine\n500 W\nSave hours"
+ },
+ {
+  "id": "T20",
+  "story": "US-07",
+  "criterion": "Daily view shows the last 7 days and Today",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T21",
+  "story": "US-08",
+  "criterion": "Projection formula (cycle kWh ÷ days) × days in cycle × rate is shown",
+  "pass": true,
+  "detail": "Daily\nMonthly\nLast 7 days\nElectricity used, in kWh\n11.7\n25\n11.6\n26\n11.8\n27\n12.0\n28\n11.1\n29\n11.1\n30\n10.1\nToday\nThis month so far\n₱1,535.36\n29% more than last month at this point. See your expected bill on the Save tab.\nHow is this calculated?\n\nA simple average: if every day were like the days so far,"
+ },
+ {
+  "id": "T22",
+  "story": "US-09",
+  "criterion": "Appliances ranked by share; air conditioner flagged \"Above usual\"",
+  "pass": true,
+  "detail": "Daily\nMonthly\nLast 7 days\nElectricity used, in kWh\n11.7\n25\n11.6\n26\n11.8\n27\n12.0\n28\n11.1\n29\n11.1\n30\n10.1\nToday\nThis month so far\n₱1,535.36\n29% more than last month at this point. See your expected bill on the Save tab.\nHow is this calculated?\n\nA simple average: if every day were like the days so far,"
+ },
+ {
+  "id": "T23",
+  "story": "US-07",
+  "criterion": "Monthly view shows billing cycles",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T24",
+  "story": "US-11",
+  "criterion": "A 7-day forecast and the projected cycle total are shown",
+  "pass": true,
+  "detail": "Expected bill this month\n₱4,097.69\n₱97.69 over your budget\nNext 7 days, with the expected high temperature\n12.3\n1\n34°\n11.4\n2\n34°\n11.0\n3\n33°\n11.0\n4\n32°\n9.6\n5\n31°\n9.2\n6\n31°\n10.8\n7\n30°\n\nHot days cost more: each 1°C hotter adds about 0.8 kWh a day in your home.\n\nHow is this calculated?\n\nModel: Weather-a"
+ },
+ {
+  "id": "T25",
+  "story": "US-15",
+  "criterion": "The forecast uses the daily high: weather model, °C per day, and kWh per 1°C",
+  "pass": true,
+  "detail": "Expected bill this month\n₱4,097.69\n₱97.69 over your budget\nNext 7 days, with the expected high temperature\n12.3\n1\n34°\n11.4\n2\n34°\n11.0\n3\n33°\n11.0\n4\n32°\n9.6\n5\n31°\n9.2\n6\n31°\n10.8\n7\n30°\n\nHot days cost more: each 1°C hotter adds about 0.8 kWh a day in your home.\n\nHow is this calculated?\n\nModel: Weather-a"
+ },
+ {
+  "id": "T26",
+  "story": "US-12",
+  "criterion": "Air-conditioner tip shows about 30 kWh (₱375.00)",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T27",
+  "story": "US-16",
+  "criterion": "A tip points to usage missing from the last bill",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T28",
+  "story": "US-12",
+  "criterion": "Dismissed tip is hidden",
+  "pass": true,
+  "detail": "Find the 41 kWh your last bill shows but the app did not record"
+ },
+ {
+  "id": "T29",
+  "story": "US-10",
+  "criterion": "Reaching 80% of the ₱4,000 limit sends a warning notification",
+  "pass": true,
+  "detail": "Electricity Regulator · now\n80% of your monthly limit used\nYou have used ₱3,200.76 of ₱4,000.00."
+ },
+ {
+  "id": "T30",
+  "story": "US-13",
+  "criterion": "When heading over the limit, the app offers a usage plan once per cycle",
+  "pass": true,
+  "detail": "1"
+ },
+ {
+  "id": "T31",
+  "story": "US-13",
+  "criterion": "Plan: allowances below usual hours; the essential refrigerator is not listed",
+  "pass": true,
+  "detail": "Daily plan\nSuggested\n\nTo stay within ₱4,000.00, use these appliances a little less each day:\n\n❄️ Air conditioner\n2.2 h a day\n🌀 Electric fan\n0.9 h a day\n📺 Television\n0.3 h a day\n🧺 Washing machine\n0.1 h a day\nTurn on plan and reminders\nHow is this calculated?\n\nAbout 3.5 kWh a day for the 21 days left,"
+ },
+ {
+  "id": "T32",
+  "story": "US-13",
+  "criterion": "Turning on the plan shows hours used against each allowance",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T33",
+  "story": "US-14",
+  "criterion": "A running timer gets a reminder 15 minutes before today's allowance",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T34",
+  "story": "US-14",
+  "criterion": "A reminder to turn it off is sent when the allowance is used up",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T35",
+  "story": "US-14",
+  "criterion": "Each reminder is sent once per appliance per day",
+  "pass": true,
+  "detail": "Time to turn off the electric fan\nOct 31, 3:25 PM\nToday's plan of 6 h 47 min is used up. Stop the timer when you switch it off.\n15 minutes left for Electric fan\nOct 31, 3:10 PM\nToday's plan allows 6 h 47 min. Plan to turn it off soon."
+ },
+ {
+  "id": "T36",
+  "story": "US-10",
+  "criterion": "Reaching 100% is recorded in the alert history with the 80% warning",
+  "pass": true,
+  "detail": "Monthly limit\nkWh\n₱\nDaily limit\nkWh\n₱\nWarn me at 80% and 100%\nSave limits\nAlert history\nOct 31 · Warning (80%, monthly)\n₱3,200.00\nOct 31 · Limit reached (100%, monthly)\n₱4,000.00\nOct 14 · Warning (80%, monthly)\n₱3,200.00"
+ },
+ {
+  "id": "T44",
+  "story": "US-18",
+  "criterion": "Air conditioner 1 hour less a day = −₱375.00 a month (at ₱12.50)",
+  "pass": true,
+  "detail": "₱375.00"
+ },
+ {
+  "id": "T45",
+  "story": "US-18",
+  "criterion": "Inverter option shows the payback period",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T37",
+  "story": "US-16",
+  "criterion": "Bill Check shows the bill vs recorded kWh, 88% coverage, and the all-in rate",
+  "pass": true,
+  "detail": "Did the app catch everything? Compare it with your real bill.\n\nBill for Sep 21 – Oct 20, 2026\nThe app recorded 88% of your bill\nYour bill\n329 kWh · ₱4,309.90\nRecorded in the app\n288 kWh\nMissed\nabout ₱533.03\n\nSome use wasn't logged. Try starting timers for appliances you often forget.\n\nYour bill work"
+ },
+ {
+  "id": "T38",
+  "story": "US-16",
+  "criterion": "Scanning the sample bill fills the period, kWh, and amount for the user to confirm",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T39",
+  "story": "US-16",
+  "criterion": "A bill with 0 kWh is rejected",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T40",
+  "story": "US-16",
+  "criterion": "A saved bill is compared on the Check screen",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T41",
+  "story": "US-16",
+  "criterion": "The bill's all-in rate can be set as the app's rate",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T42",
+  "story": "US-17",
+  "criterion": "A meter reading lower than the last one is rejected",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T43",
+  "story": "US-17",
+  "criterion": "Two readings show the measured use next to what the app recorded",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "id": "T46",
+  "story": "NFR-ACC",
+  "criterion": "No horizontal scrolling at 400 px phone width",
+  "pass": true,
+  "detail": "400"
+ },
+ {
+  "id": "T47",
+  "story": "NFR-ACC-3",
+  "criterion": "Buttons in the app are at least 40 px tall",
+  "pass": true,
+  "detail": "44"
+ },
+ {
+  "id": "T48",
+  "story": "General",
+  "criterion": "No JavaScript errors during the test run",
+  "pass": true,
+  "detail": "[]"
+ }
+]

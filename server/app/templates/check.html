@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set title = "Check" %}
+{% block content %}
+<p class="sub">Did the app catch everything? Compare it with your real bill.</p>
+{% if d.bill %}{% set b = d.bill %}
+<div class="card">
+  <div class="sub">Bill for {{ b.start|short_date }} – {{ b.end|long_date }}</div>
+  <div class="mid">The app recorded {{ b.coverage|round|int }}% of your bill</div>
+  <div class="prog {{ 'warn' if b.coverage < 90 }}"><i style="width:{{ [b.coverage,100]|min }}%"></i></div>
+  <div class="divide" style="margin-top:8px">
+  <div class="row"><span>Your bill</span><b class="num">{{ b.kwh|kwh(0) }} · {{ b.amount|peso }}</b></div>
+  <div class="row"><span>Recorded in the app</span><b class="num">{{ b.recordedKwh|kwh(0) }}</b></div>
+  <div class="row"><span>Missed</span><b class="num" style="color:var(--bad)">about {{ b.missingPeso|peso }}</b></div>
+  </div>
+  {% if b.coverage < 90 %}<p class="sub">Some use wasn't logged. Try starting timers for appliances you often forget.</p>{% endif %}
+  {% if b.rateDiffers %}
+  <div class="status warn" style="margin-top:10px"><div>Your bill works out to {{ b.rate|peso }}/kWh.<br><span>The app is using {{ h.rate|peso }}. Use the bill's rate for better estimates?</span></div></div>
+  <form method="post" action="{{ url_for('web.use_rate') }}" style="margin-top:8px"><button class="btn block" type="submit">Use {{ b.rate|peso }} as my rate</button></form>{% endif %}
+  <details class="more"><summary>How is this calculated?</summary><p>Missed = {{ b.kwh|kwh(0) }} on the bill − {{ b.recordedKwh|kwh(0) }} recorded = {{ b.missingKwh|kwh(0) }}. The rate is the bill's total amount ÷ kWh, so it includes all charges. {{ 'Scanned from a photo.' if b.src == 'SCAN' else 'Typed in.' }}</p></details>
+</div>
+{% else %}<div class="empty">No bill yet. Add your last electric bill to see how much the app caught.</div>{% endif %}
+<a class="btn primary block" href="{{ url_for('web.bill_new') }}">Scan or enter a bill</a>
+
+<details class="card more" {% if d.meter %}open{% endif %}><summary><b>Meter readings</b> <span class="sub">(optional)</span></summary>
+  {% if d.meter %}{% set m = d.meter %}
+  <div class="divide" style="margin-top:8px">
+  <div class="row"><span>{{ m['from']|short_date }} → {{ m['to']|short_date }} (meter)</span><b class="num">{{ m.measured|kwh(1) }}</b></div>
+  <div class="row"><span>Recorded in the app</span><b class="num">{{ m.recorded|kwh(1) }}</b></div>
+  <div class="row"><span>Missed</span><b class="num">{{ m.missing|kwh(1) }}</b></div></div>
+  {% else %}<p class="sub">Write down the number on your electric meter now, then again in a few days.</p>{% endif %}
+  <form method="post" action="{{ url_for('web.meter') }}" class="row" style="margin-top:8px">
+    <input class="inp num" name="reading" inputmode="decimal" placeholder="Meter reading (kWh)" aria-label="Meter reading in kWh"><button class="btn small primary" type="submit">Save</button></form>
+  {% for r in d.readings[:3] %}<div class="help num">{{ r.ts|date_time }}: {{ '{:,.1f}'.format(r.reading) }} kWh</div>{% endfor %}
+</details>
+{% endblock %}

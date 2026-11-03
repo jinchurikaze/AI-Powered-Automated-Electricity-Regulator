@@ -1,0 +1,69 @@
+{% from "_macros.html" import icon %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Electricity Regulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="page">
+  <div class="phone">
+    <div class="screen" id="app">
+      <div class="sbar"><span id="sclock">{{ h.now|clock }}</span><span>Wi-Fi · 85%</span></div>
+      {% if toasts %}
+      <div class="toasts" id="toasts" role="status" aria-live="polite">
+        {% for t in toasts[-2:] %}<div class="toast"><b>Electricity Regulator · now</b><strong>{{ t.title }}</strong><div>{{ t.body }}</div></div>{% endfor %}
+      </div>
+      {% endif %}
+      <div class="topbar">
+        {% if back %}<a class="iconbtn" href="{{ back }}" aria-label="Back">{{ icon('back') }}</a>{% endif %}
+        <h1>{{ title }}</h1>
+        {% set unread = h.unread() %}
+        <a class="iconbtn" href="{{ url_for('web.notifications') }}" aria-label="Notifications{{ ', %d unread'|format(unread) if unread }}">{{ icon('bell') }}{% if unread %}<span class="dot">{{ unread }}</span>{% endif %}</a>
+        {% if not back %}<a class="iconbtn" href="{{ url_for('web.settings') }}" aria-label="Settings">{{ icon('gear') }}</a>{% endif %}
+      </div>
+      <div class="content">
+        {% with msgs = get_flashed_messages(with_categories=true) %}{% for cat, m in msgs %}<div class="flash {{ 'ok' if cat == 'ok' }}" role="{{ 'status' if cat == 'ok' else 'alert' }}">{{ m }}</div>{% endfor %}{% endwith %}
+        {% block content %}{% endblock %}
+      </div>
+      {% block fab %}{% endblock %}
+      <nav class="nav" aria-label="Main">
+        {% for key, label, ic in [('home','Home','home'),('appliances','Appliances','plug'),('usage','Usage','chart'),('save','Save','bulb'),('check','Check','check')] %}
+        <a href="{{ url_for('web.' + key) }}" {% if tab == key %}aria-current="page"{% endif %}><span class="pill">{{ icon(ic) }}</span>{{ label }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+  <aside class="panel" aria-label="About this prototype">
+    <h2>Electricity Regulator</h2>
+    <p>Group 9's PD8 prototype. This page and the Flutter phone app use the same Python server.</p>
+    {% if h.simulated %}
+    <div class="pcard">
+      <h3>Sample household</h3>
+      <div class="clock num" id="pclock">{{ h.now|date_time }}</div>
+      <p class="help">Move the demo clock or jump to a situation:</p>
+      <div class="btnrow">
+        {% for act, label in [('hour','+1 hour'),('day','+1 day (log usual hours)'),('use80','Use up to 80% of limit'),('use100','Reach 100% of limit'),('meter','Add a meter reading now'),('reset','Reload sample household'),('new','New user')] %}
+        <form method="post" action="{{ url_for('web.demo_action', action=act) }}" class="inline"><input type="hidden" name="next" value="{{ request.path }}{{ '?' + request.query_string.decode() if request.query_string }}"><button class="btn small" type="submit">{{ label }}</button></form>
+        {% endfor %}
+      </div>
+      <p class="help">Weather and the bill photo are simulated here. A real account uses today's date and Open-Meteo temperatures for Legazpi City.</p>
+    </div>
+    {% endif %}
+    <div class="pcard">
+      <h3>Signed in</h3><div class="sub">{{ h.user.email }}</div>
+      <form method="post" action="{{ url_for('web.logout') }}"><button class="btn small" type="submit">Sign out</button></form>
+    </div>
+  </aside>
+</div>
+<script>
+// Hide notification banners after a few seconds; refresh running timers on the real clock.
+setTimeout(function(){var t=document.getElementById('toasts');if(t)t.classList.add('hide')},6000);
+{% if not h.simulated and autorefresh %}setTimeout(function(){location.reload()},60000);{% endif %}
+</script>
+</body>
+</html>

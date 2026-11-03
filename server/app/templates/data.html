@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% set title = "Your data and privacy" %}{% set back = url_for('web.settings') %}
+{% block content %}
+<div class="card"><div class="sub">Your data is used only to run this app, in line with the Data Privacy Act of 2012 (RA 10173). Bill photos are not stored.</div></div>
+<div class="card"><h2>Export</h2><textarea class="inp" readonly aria-label="Exported data">{{ export|tojson(indent=1) }}</textarea></div>
+<form method="post" onsubmit="return confirm('Delete your account and all data? This cannot be undone.')"><button class="btn danger" type="submit" style="width:100%">Delete my account and data</button></form>
+{% endblock %}

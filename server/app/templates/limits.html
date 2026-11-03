@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% from "_macros.html" import errs %}
+{% set title = "Limits and alerts" %}{% set back = url_for('web.settings') %}
+{% block content %}
+<form method="post" class="stack" novalidate>
+{% for key, label in [('monthly','Monthly limit'),('daily','Daily limit')] %}{% set L = d[key] %}
+  <div class="card stack"><h2>{{ label }}</h2>
+    <div class="row"><input class="inp num" name="{{ key }}" inputmode="decimal" placeholder="Not set" value="{{ '%g'|format(L.value) if L.active else '' }}" aria-label="{{ label }}" {% if errors[key] %}aria-invalid="true"{% endif %}>
+    <select class="inp" name="{{ key }}_unit" style="width:90px" aria-label="{{ label }} unit"><option value="KWH" {% if L.unit == 'KWH' %}selected{% endif %}>kWh</option><option value="PESO" {% if L.unit == 'PESO' %}selected{% endif %}>₱</option></select></div>
+    {{ errs(errors, key) }}</div>
+{% endfor %}
+  <label class="switch card"><span>Warn me at 80% and 100%</span><input type="checkbox" name="alerts" {% if h.user.alerts_enabled %}checked{% endif %} style="width:24px;height:24px"></label>
+  <button class="btn primary block" type="submit">Save limits</button>
+</form>
+<div class="card"><h2>Alert history</h2>
+{% for a in d.alerts %}<div class="row sub" style="margin-top:4px"><span>{{ a.sent_at|short_date }} · {{ 'Limit reached' if a.threshold == 100 else 'Warning' }} ({{ a.threshold }}%, {{ a.period }})</span><b class="num">{{ a.amount|peso if a.unit == 'PESO' else a.amount|kwh(1) }}</b></div>
+{% else %}<div class="sub">No alerts yet.</div>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% from "_macros.html" import errs %}
+{% set title = "Edit appliance" if editing else "Add appliance" %}
+{% set back = url_for('web.appliance', aid=editing.id) if editing else url_for('web.appliances') %}
+{% block content %}
+<form method="post" class="stack" novalidate>
+  <label class="f">Type *
+    <select class="inp" name="type" {% if errors.type %}aria-invalid="true"{% endif %}>
+      <option value="">Choose…</option>
+      {% for t in types %}<option {% if form.get('type') == t %}selected{% endif %}>{{ t }}</option>{% endfor %}
+    </select></label>{{ errs(errors, 'type') }}
+  <div class="grid2">
+    <label class="f">Brand<input class="inp" name="brand" value="{{ form.get('brand','') }}"></label>
+    <label class="f">Model<input class="inp" name="model" value="{{ form.get('model','') }}"></label>
+  </div>
+  <label class="f">Rated wattage (W) *<input class="inp num" name="watt" inputmode="numeric" value="{{ form.get('watt','') }}" {% if errors.watt %}aria-invalid="true"{% endif %}><span class="help">1 to 10,000 W · printed on the appliance label</span></label>{{ errs(errors, 'watt') }}
+  <div class="grid2">
+    <label class="f">Location<input class="inp" name="location" value="{{ form.get('location','') }}"></label>
+    <label class="f">Usual hours a day<input class="inp num" name="hours" inputmode="decimal" value="{{ form.get('hours','') }}"></label>
+  </div>{{ errs(errors, 'hours') }}
+  <label class="switch"><span><b>Essential appliance</b><br><span class="help">Never cut in the usage plan (e.g., refrigerator)</span></span>
+    <input type="checkbox" name="essential" {% if form.get('essential') in ('on', True, 1, '1') %}checked{% endif %} style="width:24px;height:24px"></label>
+  <button class="btn primary block" type="submit">{{ 'Save changes' if editing else 'Save appliance' }}</button>
+</form>
+{% if editing %}
+<form method="post" action="{{ url_for('web.appliance_action', aid=editing.id, action='delete') }}" onsubmit="return confirm('Delete {{ editing.type }}? Its past usage stays in your totals.')">
+  <button class="btn danger" type="submit" style="width:100%">Delete appliance</button></form>
+{% endif %}
+{% endblock %}
