@@ -46,22 +46,11 @@ python run.py                                         # in another terminal
 python acceptance/run_acceptance.py                   # 48 browser acceptance tests → acceptance/results.json
 ```
 
-## Host the server online (Render, free)
-
-The repository includes `render.yaml`, so Render can set everything up from GitHub:
-
-1. Sign in at https://render.com with GitHub.
-2. Choose **New → Blueprint**, pick this repository, and click **Apply**.
-3. Wait for the first deploy, then open the `https://…onrender.com` link and choose **Open sample household**.
-
-Free-plan notes: the server sleeps after 15 minutes without visitors and takes about a minute to wake up, and its
-SQLite database is reset when it sleeps, restarts, or redeploys (the sample household is rebuilt each time). Every push
-to `main` redeploys automatically. In the phone app, enter the `https://` link as the server address.
-
 ## 2. Run the phone app (Flutter)
 
 ```bash
 flutter create --project-name electricity_regulator --org ph.edu.bu.group9 --platforms android .   # adds android/
+Remove-Item test\widget_test.dart   # delete Flutter's sample counter test (macOS/Linux: rm test/widget_test.dart)
 flutter pub get
 flutter test
 flutter run

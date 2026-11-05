@@ -100,7 +100,7 @@ class _RateScreenState extends State<RateScreen> {
         TextField(controller: _rate, keyboardType: const TextInputType.numberWithOptions(decimal: true), decoration: InputDecoration(labelText: 'Electricity rate per kWh (₱)', errorText: _error)),
         const SizedBox(height: 12),
         DropdownButtonFormField<int>(
-          value: _day,
+          initialValue: _day,
           decoration: const InputDecoration(labelText: 'Billing cycle starts on day'),
           items: [for (var x = 1; x <= 31; x++) DropdownMenuItem(value: x, child: Text('$x'))],
           onChanged: (v) => setState(() => _day = v ?? 1),

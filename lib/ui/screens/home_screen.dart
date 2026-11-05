@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(color: sun.withOpacity(0.22), borderRadius: BorderRadius.circular(22)),
+            decoration: BoxDecoration(color: sun.withValues(alpha: 0.22), borderRadius: BorderRadius.circular(22)),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('On right now', style: t.titleMedium?.copyWith(fontWeight: FontWeight.w800)),
               if (running.isEmpty) const Padding(padding: EdgeInsets.only(top: 4), child: Text('Nothing is running. Tap Start on an appliance when you turn it on.')),

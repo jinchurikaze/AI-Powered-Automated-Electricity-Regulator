@@ -88,7 +88,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
           Row(children: [
             Expanded(
               child: DropdownButtonFormField<int>(
-                value: _day,
+                initialValue: _day,
                 decoration: const InputDecoration(labelText: 'Billing cycle starts on day'),
                 items: [for (var d = 1; d <= 31; d++) DropdownMenuItem(value: d, child: Text('$d'))],
                 onChanged: (v) => setState(() => _day = v ?? 1),

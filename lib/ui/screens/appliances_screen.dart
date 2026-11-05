@@ -34,7 +34,7 @@ class AppliancesScreen extends StatelessWidget {
               margin: EdgeInsets.zero,
               child: ListTile(
                 minVerticalPadding: 12,
-                leading: CircleAvatar(radius: 24, backgroundColor: a['running'] == true ? sun.withOpacity(0.35) : Theme.of(context).colorScheme.primaryContainer, child: Text(appEmoji('${a['type']}'), style: const TextStyle(fontSize: 22))),
+                leading: CircleAvatar(radius: 24, backgroundColor: a['running'] == true ? sun.withValues(alpha: 0.35) : Theme.of(context).colorScheme.primaryContainer, child: Text(appEmoji('${a['type']}'), style: const TextStyle(fontSize: 22))),
                 title: Text('${a['type']}', style: const TextStyle(fontWeight: FontWeight.w800)),
                 subtitle: Text(a['running'] == true ? 'On for ${hours(d(a['elapsedH']))}' : '${watts(d(a['watt']))} · today ${peso(d(a['todayKwh']) * d(s.me?['rate']))}${a['essential'] == true ? ' · essential' : ''}'),
                 trailing: a['running'] == true
@@ -148,7 +148,7 @@ class _ApplianceFormScreenState extends State<ApplianceFormScreen> {
       appBar: AppBar(title: Text(editing ? 'Edit appliance' : 'Add appliance')),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         DropdownButtonFormField<String>(
-          value: _type.isEmpty ? null : _type,
+          initialValue: _type.isEmpty ? null : _type,
           decoration: InputDecoration(labelText: 'Type *', errorText: _errors['type']),
           items: [for (final t in types) DropdownMenuItem(value: t, child: Text(t))],
           onChanged: (v) => setState(() => _type = v ?? ''),

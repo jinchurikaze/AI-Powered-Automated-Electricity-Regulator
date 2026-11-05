@@ -17,3 +17,5 @@ __pycache__/
 server/instance/
 server/acceptance/shots/
 .venv/
+# sample test created by `flutter create`; it targets Flutter's counter demo, not this app
+test/widget_test.dart

@@ -94,7 +94,7 @@ class StatusBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(18)),
+        decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(18)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(title, style: TextStyle(color: color, fontWeight: FontWeight.w800, fontSize: 16)),
           const SizedBox(height: 2),
@@ -138,7 +138,7 @@ class StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+        decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
         child: Text(text, style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w800)),
       );
 }
@@ -172,7 +172,7 @@ class BarChart extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
                       color: dashedForecast
-                          ? cs.primary.withOpacity(0.15)
+                          ? cs.primary.withValues(alpha: 0.15)
                           : (highlightLast != null && i == values.length - 1 ? sun : cs.primary),
                       border: dashedForecast ? Border.all(color: cs.primary) : null,
                       borderRadius: BorderRadius.circular(8),

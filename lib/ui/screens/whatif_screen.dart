@@ -56,7 +56,7 @@ class _WhatIfScreenState extends State<WhatIfScreen> {
       body: ListView(padding: const EdgeInsets.all(16), children: [
         InfoCard(
           label: d(r['monthlyPeso']) < 0 ? 'You would save each month' : (d(r['monthlyPeso']) > 0 ? 'You would pay more each month' : 'Move a slider to see the change'),
-          color: good ? Colors.green.withOpacity(0.10) : cs.error.withOpacity(0.10),
+          color: good ? Colors.green.withValues(alpha: 0.10) : cs.error.withValues(alpha: 0.10),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(peso(d(r['monthlyPeso']).abs()), key: const Key('whatIfPeso'),
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800, color: good ? Colors.green.shade800 : cs.error)),
