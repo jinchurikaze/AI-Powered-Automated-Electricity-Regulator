@@ -1,0 +1,42 @@
+{
+  // Run and Debug (Ctrl+Shift+D): pick a configuration, then press F5.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Server (Flask)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/server/run.py",
+      "cwd": "${workspaceFolder}/server",
+      "env": { "FETCH_WEATHER": "1" },
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Server tests (pytest)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["-q", "tests"],
+      "cwd": "${workspaceFolder}/server",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Acceptance tests (server must be running)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/server/acceptance/run_acceptance.py",
+      "cwd": "${workspaceFolder}/server",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Flutter app",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart"
+    }
+  ],
+  "compounds": [
+    { "name": "Server + Flutter app", "configurations": ["Server (Flask)", "Flutter app"], "stopAll": true }
+  ]
+}

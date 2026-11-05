@@ -1,0 +1,17 @@
+# Render Blueprint: Render reads this file when you choose New > Blueprint and pick this repository.
+# Free plan: the service sleeps after 15 minutes without visitors (about 1 minute to wake up),
+# and the SQLite database is reset whenever it sleeps, restarts, or redeploys.
+services:
+  - type: web
+    name: electricity-regulator
+    runtime: python
+    plan: free
+    rootDir: server
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 "app:create_app()"
+    healthCheckPath: /api/health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: BEHIND_PROXY
+        value: "1"

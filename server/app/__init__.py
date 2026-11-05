@@ -24,6 +24,10 @@ def create_app(test_config: dict | None = None) -> Flask:
     )
     if test_config:
         app.config.update(test_config)
+    if os.environ.get("BEHIND_PROXY") == "1":
+        # On Render (or any host with an HTTPS proxy), trust the proxy's headers so links use https://.
+        from werkzeug.middleware.proxy_fix import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
     os.makedirs(app.instance_path, exist_ok=True)
 
     with app.app_context():

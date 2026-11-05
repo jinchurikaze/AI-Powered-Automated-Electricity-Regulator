@@ -1,0 +1,27 @@
+{
+  // Terminal > Run Task…
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Set up server (venv + packages)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "windows": { "command": "python -m venv .venv; .venv\\Scripts\\python -m pip install -r requirements.txt playwright; .venv\\Scripts\\python -m playwright install chromium" },
+      "command": "python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt playwright && .venv/bin/python -m playwright install chromium",
+      "problemMatcher": []
+    },
+    {
+      "label": "Set up Flutter app (android folder + packages)",
+      "type": "shell",
+      "command": "flutter create --project-name electricity_regulator --org ph.edu.bu.group9 --platforms android . ; flutter pub get",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter tests",
+      "type": "shell",
+      "command": "flutter test",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}

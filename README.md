@@ -46,6 +46,18 @@ python run.py                                         # in another terminal
 python acceptance/run_acceptance.py                   # 48 browser acceptance tests → acceptance/results.json
 ```
 
+## Host the server online (Render, free)
+
+The repository includes `render.yaml`, so Render can set everything up from GitHub:
+
+1. Sign in at https://render.com with GitHub.
+2. Choose **New → Blueprint**, pick this repository, and click **Apply**.
+3. Wait for the first deploy, then open the `https://…onrender.com` link and choose **Open sample household**.
+
+Free-plan notes: the server sleeps after 15 minutes without visitors and takes about a minute to wake up, and its
+SQLite database is reset when it sleeps, restarts, or redeploys (the sample household is rebuilt each time). Every push
+to `main` redeploys automatically. In the phone app, enter the `https://` link as the server address.
+
 ## 2. Run the phone app (Flutter)
 
 ```bash
@@ -68,6 +80,20 @@ On the first screen, enter the server address, then choose **Open sample househo
   Python through the firewall.
 
 The phone reads bill photos with ML Kit (minSdk 21) and sends only the text to the server.
+
+## Run and test in VS Code
+
+Open the project folder (the one with `README.md`) in VS Code and install the recommended extensions when asked
+(Python, Flutter).
+
+1. **Terminal → Run Task… → Set up server (venv + packages)** (once). Then pick the interpreter
+   `server\.venv` when VS Code asks (or Ctrl+Shift+P → *Python: Select Interpreter*).
+2. **Run and Debug** (Ctrl+Shift+D):
+   - **Server (Flask)** → F5, then open http://localhost:5000;
+   - **Server tests (pytest)** (or the Testing panel, the flask icon on the left);
+   - **Acceptance tests (server must be running)**;
+   - **Flutter app** or **Server + Flutter app** (after **Run Task… → Set up Flutter app** and the
+     AndroidManifest changes in Section 2).
 
 ## API (used by the Flutter app)
 
